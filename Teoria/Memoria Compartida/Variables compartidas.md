@@ -11,24 +11,24 @@
     - Bakery: cada proceso que trata de ingresar recorre los numeros de los demas y se auto-asigna uno mayor. Luego esprea a que su numero sea el menor de los que esperan. Los procesos se chequean entre ellos y no contra un global.
   - Sincronizacion Barrier: una barrera es un punto de demora a la que deben llegar todos los procesos antes de permitirles pasar y continuar su ejecucion.
     - Contador compartido: todos los procesos incrementan una variable compartida al llegar a la barrera; cuando dicha variable es n (siendo n la cantidad de procesos), los procesos pueden pasar la barrera.
-    ```
-    int arribo[1:n] = ([n] 0), continuar[1:n] = ([n] 0);
-    process Worker[i=1 to n]
-    { while (true)
-        { código para implementar la tarea i;
-            arribo[i] = 1;
-            while (continuar[i] == 0) skip;
-            continuar[i] = 0;
-        }
-    }
-    process Coordinador
-    { while (true)
-        { for [i = 1 to n]
-            { while (arribo[i] == 0) skip;
-                arribo[i] = 0;
+      ```
+        int arribo[1:n] = ([n] 0), continuar[1:n] = ([n] 0);
+        process Worker[i=1 to n]
+        { while (true)
+            { código para implementar la tarea i;
+                arribo[i] = 1;
+                while (continuar[i] == 0) skip;
+                continuar[i] = 0;
             }
-            for [i = 1 to n] continuar[i] = 1;
         }
-    }
-    ```
+        process Coordinador
+        { while (true)
+            { for [i = 1 to n]
+                { while (arribo[i] == 0) skip;
+                    arribo[i] = 0;
+                }
+                for [i = 1 to n] continuar[i] = 1;
+            }
+        }
+      ```
     -
