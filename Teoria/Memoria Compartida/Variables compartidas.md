@@ -1,6 +1,6 @@
 
 <h1>Variables compartidas: dos implementaciones:</h1>
--Grano grueso: Sincronizacion(sentencias await).
+--*Grano grueso: Sincronizacion(sentencias await).
 --Await general: <await (s>0) s=s-1;>
 --Await para exclusion mutua: <x=x+1; y=y+1;>
 -Grano fino: tiene como objetivo hacer atomico el await de grano grueso. Se implementa de dos maneras: Locks (implementacion de acciones atomicas en software) y Barreras (punto de sincronizacion que todos los procesos deben alcanzar para que cualquier proceso pueda continuar).
