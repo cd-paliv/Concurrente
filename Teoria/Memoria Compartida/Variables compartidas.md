@@ -77,7 +77,7 @@
         }
       ```
     - Bakery: cada proceso que trata de ingresar recorre los numeros de los demas y se auto-asigna uno mayor. Luego esprea a que su numero sea el menor de los que esperan. Los procesos se chequean entre ellos y no contra un global.
-      ```python
+      ```
         int turno[1:n] = ([n] 0);
         process SC[i = 1 to n]
         { while (true)
