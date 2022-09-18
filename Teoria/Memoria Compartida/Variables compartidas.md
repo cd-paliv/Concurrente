@@ -113,4 +113,5 @@
             }
         }
       ```
-    -
+        - Arboles: combin las acciones de Workers y Coordinador. El tiempo de ejecucion del coordinador es proporcional a n. Las señales de arribo van hacia arriba en el arbol, y las de continuar hacia abajo -> *combining tree barrier*.
+        - Barreras Simetricas: para n procesos se construye a partir de pares de barreras simples para dos procesos.
