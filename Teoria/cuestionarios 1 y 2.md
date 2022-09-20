@@ -47,16 +47,17 @@ Al mismo tiempo, una expresión e no esta en una sentencia de asignación, satis
 Si una sentencia de asignación cumple con la propiedad ASV, entonces su ejecución parece atómica, pues la variable compartida será leída o escrita solo una vez. Si una expresión o asignación no satisface ASV con frecuencia, es necesario ejecutarla atómicamente. En general, es necesario ejecutar sentencias de sentencias como una única acción atómica (sincronización por exclusión mutua).<br />
 
 10. Dado el siguiente programa concurrente:
-    ```x = 2; y = 4; z = 3;
+    ```
+    x = 2; y = 4; z = 3;
     co
-    x = y - z // z = x * 2 // y = y - 1
+      x = y - z // z = x * 2 // y = y - 1
     oc
     ```
 a. ¿Cuáles de las asignaciones dentro de la sentencia co cumplen con ASV?. Justifique claramente. <br />
    Ninguna. <br />
    x contiene dos referencias criticas. <br />
-   z contiene la referencia critica x que es referenciada por otro proceso. ??? <br />
-   y contiene la referencia critica y que es referenciada por otro proceso. ???<br />
+   z contiene la referencia critica x que es referenciada por otro proceso. <br />
+   y contiene la referencia critica y que es referenciada por otro proceso.<br />
 b.  Indique los resultados posibles de la ejecución <br />
 Nota 1: las instrucciones NO SON atómicas. <br />
 Nota 2: no es necesario que liste TODOS los resultados, pero si los que sean representativos de las diferentes situaciones que pueden darse. <br />
