@@ -18,7 +18,7 @@ Deadlock se da cuando dos o mas procesos se quedan esperando que otro libere un 
    - Espera ciclica: existe una cadena circular (ciclo) de procesos tal que cada uno tiene un recurso que su sucesor en el ciclo esta esperando adquirir.
 
 4.  Defina inanición. Ejemplifique. <br />
-La inanicion se da cuando un proceso no logra acceder a un recurso compartido porque otro proceso siempre le gana. El ejemplo de inanicion mas utilizado es el de La Cena de Los Filosofos, la cual presenta el caso de cinco filosofos sentados en una mesa que pueden pensar y requieren de dos tenedores para comer; el problema es que cada uno tiene un unico tenedor a su izquierda, es decir, debera tomar el tenedor de otro filosofo para comer.
+La inanicion se da cuando un proceso no logra acceder a un recurso compartido porque otro proceso siempre le gana. El ejemplo de inanicion mas utilizado es el de La Cena de Los Filosofos, la cual presenta el caso de cinco filosofos sentados en una mesa que pueden pensar y requieren de dos tenedores para comer; el problema es que cada uno tiene un unico tenedor a su izquierda, es decir, debera tomar el tenedor de otro filosofo para comer.<br />
 Si los filosofos toman todos primero el tenedor de la izquierda y luego el de la derecha, siempre quedara uno esperando que otro suelte el tenedor, para poder comenzar a comer.
 
 5. ¿Qué entiende por no determinismo? ¿Cómo se aplica este concepto a la ejecución concurrente? <br />
@@ -33,8 +33,8 @@ La comunicacion entre procesos indica el modo en que se organizan y transmiten d
 La sincronización es la posesion de informacion acerca de otro proceso para coordinar actividades. Los procesos se sincronizan por:
    - Exclusion mutua: busca asegurar que un solo proceso tenga acceso a un recurso compartido en un instante de tiempo. Si el programa tiene secciones criticas que pueden compartir mas de un proceso, la exclusion mutua evita que dos o mas procesos puedan encontrarse en la misma seccion critica al mismo tiempo.
    - Condicion: permite bloquear la ejecución de un proceso hasta que se cumpla una condicion dada.
-     b. ¿En un programa concurrente pueden estar presentes más de un mecanismo de sincronización? En caso afirmativo, ejemplifique
-     Si. Un ejemplo de dos mecanismos de sincronizacion en un problema es un buffer limitado con productores y consumidores.
+b. ¿En un programa concurrente pueden estar presentes más de un mecanismo de sincronización? En caso afirmativo, ejemplifique<br />
+   Si. Un ejemplo de dos mecanismos de sincronizacion en un problema es un buffer limitado con productores y consumidores.
 
 8.  ¿Qué significa el problema de “interferencia” en programación concurrente? ¿Cómo puede evitarse? <br />
 La interferencia se da cuando un proceso toma una acción que invalida las suposiciones hechas por otro proceso.
@@ -43,8 +43,8 @@ La interferencia se da cuando un proceso toma una acción que invalida las supos
 Una sentencia de asignación x=e satisface la propiedad de "A lo sumo una vez" si:
    1) e contiene a lo sumo una referencia critica y x no es referenciada por otro proceso.
    2) e no contiene referencias criticas, en cuyo caso x puede ser leída por otro proceso.
-Al mismo tiempo, una expresión e no esta en una sentencia de asignación, satisface la propiedad si no contiene más de una referencia critica.
-Si una sentencia de asignación cumple con la propiedad ASV, entonces su ejecución parece atómica, pues la variable compartida será leída o escrita solo una vez. Si una expresión o asignación no satisface ASV con frecuencia, es necesario ejecutarla atómicamente. En general, es necesario ejecutar sentencias de sentencias como una única acción atómica (sincronización por exclusión mutua).
+Al mismo tiempo, una expresión e no esta en una sentencia de asignación, satisface la propiedad si no contiene más de una referencia critica.<br />
+Si una sentencia de asignación cumple con la propiedad ASV, entonces su ejecución parece atómica, pues la variable compartida será leída o escrita solo una vez. Si una expresión o asignación no satisface ASV con frecuencia, es necesario ejecutarla atómicamente. En general, es necesario ejecutar sentencias de sentencias como una única acción atómica (sincronización por exclusión mutua).<br />
 
 10. Dado el siguiente programa concurrente:
     ```x = 2; y = 4; z = 3;
@@ -52,26 +52,26 @@ Si una sentencia de asignación cumple con la propiedad ASV, entonces su ejecuci
     x = y - z // z = x * 2 // y = y - 1
     oc
     ```
-a. ¿Cuáles de las asignaciones dentro de la sentencia co cumplen con ASV?. Justifique claramente.
-Ninguna. <br />
-x contiene dos referencias criticas. <br />
-z contiene la referencia critica x que es referenciada por otro proceso. ??? <br />
-y contiene la referencia critica y que es referenciada por otro proceso. ???<br />
+a. ¿Cuáles de las asignaciones dentro de la sentencia co cumplen con ASV?. Justifique claramente. <br />
+   Ninguna. <br />
+   x contiene dos referencias criticas. <br />
+   z contiene la referencia critica x que es referenciada por otro proceso. ??? <br />
+   y contiene la referencia critica y que es referenciada por otro proceso. ???<br />
 b.  Indique los resultados posibles de la ejecución <br />
 Nota 1: las instrucciones NO SON atómicas. <br />
 Nota 2: no es necesario que liste TODOS los resultados, pero si los que sean representativos de las diferentes situaciones que pueden darse. <br />
 
-11.  Defina acciones atómicas condicionales e incondicionales. Ejemplifique.
-Las sentencias await permiten generar dos tipos de acciones atomicas:
+11.  Defina acciones atómicas condicionales e incondicionales. Ejemplifique.<br />
+Las sentencias await permiten generar dos tipos de acciones atomicas:<br />
    - Incondicionales: aquellas acciones atomicas que no utilizan condicion o la espera para que una condicion se cumpla. Es decir, aquellas que justamente no utilizan el await. Por ejemplo el await para exclusion mutua.
    - Condicionales: aquellas acciones atomicas que bloquean la ejecucion de un proceso hasta que se cumpla una condicion. Por ejemplo el await para sincronizacion por condicion.
 
-12.  Defina propiedad de seguridad y propiedad de vida.
+12.  Defina propiedad de seguridad y propiedad de vida.<br />
 Una propiedad de un programa concurrente es un atributo verdadero en cualquiera de las historias de ejeucion del mismo. Toda propiedad puede ser formulada en terminos de dos clases:
    - Seguridad (safety): asegura estados consistentes. Ejemplos: exclusion mutua, ausencia de interferencia entre procesos, partial correctness.
    - Vida (liveness): progresa, no hay deadlocks. Ejemplos: terminacion, asegurar que un pedido de servicio sera atendido, que un mensaje llega a destino, etc. Estos dependen de las politicas de scheduling.
 
-13.  ¿Qué es una política de scheduling? Relacione con fairness. ¿Qué tipos de fairnes conoce?
+13.  ¿Qué es una política de scheduling? Relacione con fairness. ¿Qué tipos de fairnes conoce?<br />
 Una politica de scheduling determina cual sera la proxima accion atomica a ejecutar. Fairness trata de garantizar que los procesos tengan chance de avanzar, sin importar lo que hagan los demas. Hay dos tipos de fairness:
    - Fairness incondicional: una politica de scheduling es incondicionalmente fair si toda accion atomica incondicional que es elegible es eventualmente ejecutada. Ejemplo: RR en monoprocesador, ejecucion paralela en multiprocesador.
    - Fariness debil: una politica de scheduling es debilmente fair si:
