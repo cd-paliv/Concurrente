@@ -51,14 +51,14 @@ Si una sentencia de asignación cumple con la propiedad ASV, entonces su ejecuci
     x = y - z // z = x * 2 // y = y - 1
     oc
     ```
-a. ¿Cuáles de las asignaciones dentro de la sentencia co cumplen con ASV?. Justifique claramente.
+   a. ¿Cuáles de las asignaciones dentro de la sentencia co cumplen con ASV?. Justifique claramente.
 Ninguna.
-   x contiene dos referencias criticas.
-   z contiene la referencia critica x que es referenciada por otro proceso. ???
-   y contiene la referencia critica y que es referenciada por otro proceso. ???
-b.  Indique los resultados posibles de la ejecución
-Nota 1: las instrucciones NO SON atómicas.
-Nota 2: no es necesario que liste TODOS los resultados, pero si los que sean representativos de las diferentes situaciones que pueden darse.
+x contiene dos referencias criticas.
+z contiene la referencia critica x que es referenciada por otro proceso. ???
+y contiene la referencia critica y que es referenciada por otro proceso. ???
+   b.  Indique los resultados posibles de la ejecución
+   Nota 1: las instrucciones NO SON atómicas.
+   Nota 2: no es necesario que liste TODOS los resultados, pero si los que sean representativos de las diferentes situaciones que pueden darse.
 
 11.  Defina acciones atómicas condicionales e incondicionales. Ejemplifique.
 Las sentencias await permiten generar dos tipos de acciones atomicas:
