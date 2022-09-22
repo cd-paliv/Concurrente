@@ -61,7 +61,7 @@ Los semáforos SI O SI se deben inicializar, no es posible ver ni modificar el v
       }
       ´´´
 - Contadores de Recursos: se utiliza un vector de manera circular; si está posicionado en la última posición del vector, la próxima posición es la primera. Cada semáforo cuenta el número de unidades libres de un recurso determinado. Esta forma de utilización es adecuada cuando los procesos compiten por recursos de múltiples unidades.
-    ´´´pascal
+    ```
       typeT buf[n]; int ocupado = 0, libre = 0;
       sem vacio = n, lleno = 0;
       sem mutexD = 1, mutexR = 1;
@@ -81,7 +81,7 @@ Los semáforos SI O SI se deben inicializar, no es posible ver ni modificar el v
           //consumir mensaje resultado
         }
       }
-    ´´´
+    ```
 - Passing de Baton: técnica general para implementar sentencias await. Cuando un proceso está dentro de una SC mantiene el baton, que significa permiso para ejecutar. Cuando el proceso llega a una SIGNAL (es decir, sale de la SC), pasa el baton (control) a otro proceso. Si ningún proceso está esperando el baton, este se libera para que lo tome el próximo que lo necesite.
       ´´´
       
