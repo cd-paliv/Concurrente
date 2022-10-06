@@ -28,7 +28,7 @@ Los semáforos SI O SI se deben inicializar, no es posible ver ni modificar el v
       }
     ```
   - Exclusión mutua selectiva: exclusion mutua entre procesos que compiten por el acceso a conjuntos superpuestos de variables compartidas: Problema de los filósofos.
-- Barreas: se tiene un semáforo para cada flag de sincronización. Un proceso setea el flah ejecutando V (se encuentra en la barrera), y espera a que un flah sea seteado y luego lo limpia ejecutando P (pasó la barrera).
+- Barreas: se tiene un semáforo para cada flag de sincronización. Un proceso setea el flag ejecutando V (se encuentra en la barrera), y espera a que un flag sea seteado y luego lo limpia ejecutando P (pasó la barrera).
     ```
       sem llega1=0, llega2=0;
       process Worker1
@@ -84,6 +84,37 @@ Los semáforos SI O SI se deben inicializar, no es posible ver ni modificar el v
     ```
 - Passing de Baton: técnica general para implementar sentencias await. Cuando un proceso está dentro de una SC mantiene el baton, que significa permiso para ejecutar. Cuando el proceso llega a una SIGNAL (es decir, sale de la SC), pasa el baton (control) a otro proceso. Si ningún proceso está esperando el baton, este se libera para que lo tome el próximo que lo necesite.
     ```
-      ?
+      int nr(nroReaders) = 0, nw(nroWriters) = 0, dr(procesosDealyedReader) = 0, dw(procesosDealyedWriter) = 0;
+      sem e = 1, r = 0, w = 0;
+
+      process Lector [i = 1 to M]
+      { while(true)
+        { P(e);
+          if (nw > 0) {dr = dr+1; V(e); P(r); }
+          nr = nr + 1;
+          if (dr > 0) {dr = dr – 1; V(r); }
+          else V(e);
+          lee la BD;
+          P(e);
+          nr = nr – 1;
+          if (nr == 0 and dw > 0) {dw = dw – 1; V(w); }
+          else V(e);
+        }
+      }
+
+      process Escritor [j = 1 to N]
+      { while(true)
+        { P(e);
+          if (nr > 0 or nw > 0) {dw=dw+1; V(e); P(w);}
+          nw = nw + 1;
+          V(e);
+          escribe la BD;
+          P(e);
+          nw = nw – 1;
+          if (dr > 0) {dr = dr - 1; V(r); }
+          elseif (dw > 0) {dw = dw - 1; V(w); }
+          else V(e);
+        }
+      }
     ```
 - 
