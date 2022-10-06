@@ -15,7 +15,7 @@ Los semáforos SI O SI se deben inicializar, no es posible ver ni modificar el v
 
 ##### Técnicas básicas para resolver problemas repetitivos de concurrencia con semáforos:
 - Exclusión mutua: se espera a que la sección crítica esté libre.
-      ´´´
+    ```
       sem free = 1;
       process SC[i=1 to n]
       {
@@ -26,10 +26,10 @@ Los semáforos SI O SI se deben inicializar, no es posible ver ni modificar el v
           sección no crítica;
         }
       }
-      ´´´
+    ```
   - Exclusión mutua selectiva: exclusion mutua entre procesos que compiten por el acceso a conjuntos superpuestos de variables compartidas: Problema de los filósofos.
 - Barreas: se tiene un semáforo para cada flag de sincronización. Un proceso setea el flah ejecutando V (se encuentra en la barrera), y espera a que un flah sea seteado y luego lo limpia ejecutando P (pasó la barrera).
-      ´´´
+    ```
       sem llega1=0, llega2=0;
       process Worker1
       { ...
@@ -41,9 +41,9 @@ Los semáforos SI O SI se deben inicializar, no es posible ver ni modificar el v
         V(llega2); P(llega1);
         ...
       }
-      ´´´
+    ```
 - Semáforo binario dividido (Split Binary Semaphore): cada semáforo es divido en n partes (la suma de los semáforos involucradas nunca es mayor que 1). Por ejemplo, en el caso de productores y consumidores:
-      ´´´
+    ```
       typeT buf; sem vacio = 1, lleno = 0;
       process Productor [i = 1 to M]
       { while(true)
@@ -59,9 +59,9 @@ Los semáforos SI O SI se deben inicializar, no es posible ver ni modificar el v
           ...
         }
       }
-      ´´´
+    ```
 - Contadores de Recursos: se utiliza un vector de manera circular; si está posicionado en la última posición del vector, la próxima posición es la primera. Cada semáforo cuenta el número de unidades libres de un recurso determinado. Esta forma de utilización es adecuada cuando los procesos compiten por recursos de múltiples unidades.
-      ´´´
+    ```
       typeT buf[n]; int ocupado = 0, libre = 0;
       sem vacio = n, lleno = 0;
       sem mutexD = 1, mutexR = 1;
@@ -81,9 +81,9 @@ Los semáforos SI O SI se deben inicializar, no es posible ver ni modificar el v
           //consumir mensaje resultado
         }
       }
-      ´´´
+    ```
 - Passing de Baton: técnica general para implementar sentencias await. Cuando un proceso está dentro de una SC mantiene el baton, que significa permiso para ejecutar. Cuando el proceso llega a una SIGNAL (es decir, sale de la SC), pasa el baton (control) a otro proceso. Si ningún proceso está esperando el baton, este se libera para que lo tome el próximo que lo necesite.
-      ´´´
-      
-      ´´´
+    ```
+      ?
+    ```
 - 
