@@ -1,3 +1,4 @@
+````
 sem lugares = 7;
 sem turnoT = 5, turnoM = 5;
 
@@ -18,3 +19,4 @@ process Maiz[id: 1..M]
     V(lugares);
     V(turnoM);
 }
+````

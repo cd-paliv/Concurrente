@@ -1,12 +1,7 @@
-/* Simular la atención en una Terminal de Micros que posee 3 puestos para hisopar a
-150 pasajeros. En cada puesto hay una Enfermera que atiende a los pasajeros de acuerdo
-con el orden de llegada al mismo. Cuando llega un pasajero se dirige al puesto que tenga
-menos gente esperando. Espera a que la enfermera correspondiente lo llame para
-hisoparlo, y luego se retira.
-Nota: sólo deben usar procesos Pasajero y Enfermera.
-Además, suponer que existe una función Hisopar() que simula la atención del pasajero por
-parte de la enfermera correspondiente */
+Simular la atención en una Terminal de Micros que posee 3 puestos para hisopar a 150 pasajeros. En cada puesto hay una Enfermera que atiende a los pasajeros de acuerdo con el orden de llegada al mismo. Cuando llega un pasajero se dirige al puesto que tenga menos gente esperando. Espera a que la enfermera correspondiente lo llame para hisoparlo, y luego se retira.
+    Nota: sólo deben usar procesos Pasajero y Enfermera. Además, suponer que existe una función Hisopar() que simula la atención del pasajero por parte de la enfermera correspondiente
 
+````
 cola listaDeEspera[3]; //una cola para cada enfermera
 sem esperaLlamadoEnfermera[3] = ([3] 0);
 sem mutex[3] = ([3] 1);
@@ -56,3 +51,4 @@ procedure int ElegirMinimoPuesto(puesto)
     puesto[min]
     V(mutexPuesto[min])
 }
+````
