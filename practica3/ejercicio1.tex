@@ -1,0 +1,22 @@
+a) No, porque al terminar la espera en entrarPuente() el monitor vuelve al while, esperando otra vez.
+
+b) Podria cambiarse el while por el if
+    Monitor Puente
+        cond cola;
+        int cant= 0;
+        Procedure entrarPuente ()
+            if ( cant > 0) wait (cola);
+            cant = cant + 1;
+        end;
+        Procedure salirPuente ()
+            cant = cant - 1;
+            signal(cola);
+        end;
+    End Monitor;
+    Process Auto [a:1..M]
+        Puente. entrarPuente (a);
+        “el auto cruza el puente”
+        Puente. salirPuente(a);
+    End Process;
+
+c) No y no. 
