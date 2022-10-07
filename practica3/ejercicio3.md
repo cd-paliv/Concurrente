@@ -112,34 +112,63 @@ Existen N personas que deben fotocopiar un documento. La fotocopiadora sólo pue
 
         procedure Acceso(idP: in int)
             Push(fila, idP)
-            hayFila++;
             signal(hayPersonas)
             wait(espera[idP])
         end;
 
         procedure Siguiente()
-            if(hayFila == 0) wait(hayPersonas);
-            while(true){
-                Pop(fila, idAux)
-                signal(espera[idAux])
-                wait(hayPersonas)
-            }
-        end;
-
-        procedure Liberar()
-            hayFila--;
+            wait(hayPersonas)
+            Pop(fila, idAux)
+            signal(espera[idAux])
         end;
     end monitor;
     
     process Empleado
-        Fotocopiadora.Siguiente();
+        while(true) Fotocopiadora.Siguiente();
     end process;
 
     process Persona[id: 0..N-1]
         Fotocopiadora.Acceso(id);
         Fotocopiar();
-        Fotocopiadora.Liberar();
     end process;
     ````
 
 6. Modificar la solución (5) para el caso en que sean 10 fotocopiadoras. El empleado le indica a la persona cuál fotocopiadora usar y cuándo hacerlo.
+    ````
+    monitor Fotocopiadora
+        colaOrdenada fila, filaImp;
+        int idAux, hayFila = 0, impresora[N], imp;
+        cond espera[N], hayPersonas, hayImpresora;
+
+        procedure Acceso(idP: in int, miImp: out int)
+            Push(fila, idP)
+            signal(hayPersonas)
+            wait(espera[idP])
+            imp = impresora[id];
+        end;
+
+        procedure Siguiente()
+            wait(hayPersonas)
+            Pop(fila, idAux)
+            wait(hayImpresora)
+            impresora[idAux] = Pop(filaImp, imp)
+            signal(espera[idAux])
+        end;
+
+        procedure Liberar(miImp: in int)
+            Push(filaImp, miImp)
+            signal(hayImpresora)
+        end;
+    end monitor;
+    
+    process Empleado
+        while(true) Fotocopiadora.Siguiente();
+    end process;
+
+    process Persona[id: 0..N-1]
+        int impresora;
+        Fotocopiadora.Acceso(id, impresora);
+        Fotocopiar();
+        Fotocopiadora.Liberar();
+    end process;
+    ````
