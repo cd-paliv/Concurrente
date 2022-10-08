@@ -3,7 +3,7 @@ a) Si, funciona correctamente ya que ningún auto podrá pasar al mismo tiempo q
 b) Podría mejorarse de forma que en lugar de utilizar un while se utilice un if, ya que cant va a ser mayor que 0 *SÓLO* cuando un auto esté pasando por el puente, y ese mismo despertará al siguiente proceso, no es necesario volver a chequear la condición muchas veces.
 Tampoco es necesario enviarle parámetros al proceso del monitor.
 
-```
+```C
     Monitor Puente
         cond cola;
         int cant= 0;
@@ -24,8 +24,8 @@ Tampoco es necesario enviarle parámetros al proceso del monitor.
     End Process;
 ```
 
-c) Si, aunque se podría mejorar. La técnica para respetar es Passing the Condition.
-```
+c) Si, aunque se podría mejorar. La técnica para respetar el orden es Passing the Condition.
+```C
     Monitor Puente
         cond cola;
         int cant= 1, espera= 0;

@@ -1,5 +1,7 @@
+// ESTE EJERCICIO ESTÁ MAL
+
 a)
-````
+````C
 sem acceso = 1;
 process Persona[id: 1..N]
 { while(true)
@@ -26,7 +28,7 @@ process PPseudocodigo[id: 1..N]
         me voy y marco el recurso como libre.
 }
 
-````
+````C
 c=cola;
 bool libre=true:
 sem espera([N] 1), acceso=1;
@@ -60,7 +62,7 @@ process Persona[id: 1..N]
 ````
 
 c)
-````
+````C
 c=cola;
 bool libre=true:
 sem espera([N] 1), acceso=1;
@@ -93,7 +95,7 @@ process Persona[id: 1..N]
 ````
 
 d)
-````
+````C
 sem llega=1, espera([N] 1), ok=0;
 
 process Persona[id: 1..N]
@@ -119,7 +121,7 @@ process Coordinador
 ````
 
 e)
-````
+````C
 sem llega=1, ok=4, espera([N] 1), mutex=1, mutexCola=1;
 c=cola; int impresora[N];
 

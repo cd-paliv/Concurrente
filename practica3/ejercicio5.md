@@ -1,7 +1,7 @@
 En un corralón de materialessedebenatender a N clientes de acuerdocon el orden de llegada. Cuando un cliente es llamado para ser atendido,entregauna lista con los productos que comprará, y espera a que alguno de los empleados le entregue el comprobante de la compra realizada.
 
 a)Resuelva considerando que el corralón tiene un único empleado.
-````
+````C
 monitor Corralon
     cond cola[N], hayFila;
     colaOrdenada fila;

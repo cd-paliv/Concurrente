@@ -8,7 +8,7 @@ representa el orden en que se terminó esa tarea de las 10 posibles.
     elegir que le asigna una tarea a un alumno (esta función asignará 10 tareas diferentes entre 50 alumnos, es decir, que 5
     alumnos tendrán la tarea 1, otros 5 la tarea 2 y así sucesivamente para las 10 tareas).
 
-````
+````C
 int cantAlumnos = 0;
 sem mutexCant = 1;
 int calificacionDeGrupo[10] = ([10] 0);

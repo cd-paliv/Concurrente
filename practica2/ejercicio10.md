@@ -1,4 +1,4 @@
-````
+````C
 sem lugares = 7;
 sem turnoT = 5, turnoM = 5;
 

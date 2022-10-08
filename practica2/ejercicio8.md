@@ -1,6 +1,6 @@
 Una fábrica de piezas metálicas debe producir T piezas por día. Para eso, cuenta con E empleados que se ocupan de producir las piezas de a una por vez (se asume T>E). La fábrica empieza a producir una vez que todos los empleados llegaron. Mientras haya piezas por fabricar, los empleados tomarán una y la realizarán. Cada empleado puede tardar distinto tiempo en fabricar una pieza. Al finalizar el día, se le da un premio al empleado que más piezas fabricó.
 
-````
+````C
 int cantPiezas = 0, cantEmpleados = 0;
 sem mutexP = 1, mutexE = 1;
 sem barrera_empleados[E] = ([E] 0);

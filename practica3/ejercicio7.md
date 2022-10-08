@@ -6,7 +6,7 @@ monitor Equipo
     int cantPersonas[4] = ([4] 0)
     int cancha[4], numCancha = 0;
 
-    procedure EsperarCompañeros(equipo: in int)
+    procedure EsperarCompaneros(equipo: in int)
         cantPersonas[equipo]++;
         if(cantPersonas[equipo] < 5) wait(espero_cinco[equipo])
         else{
@@ -52,7 +52,7 @@ end monitor;
 
 process Jugador[id: 1..20]
     int nroC, e = DarEquipo();
-    Equipo.Esperar(e);
+    Equipo.EsperarCompaneros(e);
     Equipo.EsperoOtroEquipo(e, nroC);
     Cancha[nroC].Jugar();
 end process;
