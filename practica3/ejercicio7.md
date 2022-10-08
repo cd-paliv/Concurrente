@@ -4,7 +4,7 @@ En un entrenamiento de fútbol hay 20 jugadores que forman 4 equipos (cada jugad
 monitor Equipo
     cond espero_cinco[4];
     int cantPersonas[4] = ([4] 0)
-    int cancha[4], numCancha = 0;
+    int cancha[4], numCancha = 0, hayEquipo = 0;
 
     procedure EsperarCompaneros(equipo: in int)
         cantPersonas[equipo]++;
@@ -37,7 +37,7 @@ monitor Cancha[id: 1..4]
 
     procedure Jugar()
         cant++;
-        if(cant = 10) signal(ePartido)
+        if(cant == 10) signal(ePartido)
         wait(ePersonas)
     end;
 
