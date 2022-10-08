@@ -7,7 +7,6 @@ monitor Fila
     int cantAlumnos = 0;
     int grupo[50];
 
-
     procedure Entrar(idP: in int; g: out int)
         cantAlumnos++;
         if(cantAlumnos == 50) signal(profesor)
@@ -18,7 +17,7 @@ monitor Fila
     procedure Liberar()
         if(cantAlumnos == 50) wait(profesor)
         for(i=0; i<50; i++){
-            grupo[i] = AsignarNroGrupo();
+            grupo[i] = AsignarNroGrupo(); //???
             signal(cola[i])
         }
     end;
@@ -27,25 +26,30 @@ end monitor;
 monitor Tarea
     cond esperando_notas[50];
     cola examenes;
-    int notas[25], puntaje = 25;
+    int notas[25], cantExamenes = 0;
 
     process Realizar(idP: in int; nroTarea: in int; nota: out int)
         // Realiza tarea
         Push(examenes, nroTarea)
-        signal(termino)
+        if(cantExamenes == 0) signal(termino)
+        cantExamenes++;
         wait(esperando_notas[nroTarea])
         nota = notas[nroTarea]
     end;
 
     process Corregir()
-        int enunciado;
-        if(empty(examenes)) wait(termino)
-        Pop(examenes, enunciado);
-        notas[enunciado]++;
-        if(notas[enunciado] == 2){
-            puntaje--;
-            notas[enunciado] = puntaje;
-            signal_all(esperando_notas[enunciado])
+        int puntaje = 25;
+        while(puntaje > 0){
+            int enunciado;
+            if(cantExamenes == 0) wait(termino)
+            Pop(examenes, enunciado);
+            cantExamenes--;
+            notas[enunciado]++;
+            if(notas[enunciado] == 2){
+                puntaje--;
+                notas[enunciado] = puntaje;
+                signal_all(esperando_notas[enunciado])
+            }
         }
     end;
 end;
