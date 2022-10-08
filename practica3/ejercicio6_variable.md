@@ -14,25 +14,31 @@ monitor Fila
         g = grupo[idP]
     end;
 
-    procedure Liberar()
-        if(cantAlumnos == 50) wait(profesor)
-        for(i=0; i<50; i++){
-            grupo[i] = AsignarNroGrupo(); //???
-            signal(cola[i])
-        }
+    procedure EsperarAlumnos()
+        if(cantAlumnos < 50) wait(profesor);
+    end;
+    
+    procedure FijarGrupo(idA, grupoA: in int)
+        grupo[idA] = grupoA;
+        signal(cola[idA]);
     end;
 end monitor;
 
 monitor Tarea
-    cond esperando_notas[50];
+    cond esperando_notas[50], cola;
     cola examenes;
-    int notas[25], cantExamenes = 0;
+    int notas[25] = ([25] 0), cantExamenes = 0;
 
+    process Empezar()
+        signal_all(cola);
+    end;
+    
     process Realizar(idP: in int; nroTarea: in int; nota: out int)
+        wait(cola)
         // Realiza tarea
         Push(examenes, nroTarea)
         if(cantExamenes == 0) signal(termino)
-        cantExamenes++;
+        else cantExamenes++;
         wait(esperando_notas[nroTarea])
         nota = notas[nroTarea]
     end;
@@ -42,12 +48,12 @@ monitor Tarea
         while(puntaje > 0){
             int enunciado;
             if(cantExamenes == 0) wait(termino)
+            else cantExamenes--;
             Pop(examenes, enunciado);
-            cantExamenes--;
             notas[enunciado]++;
             if(notas[enunciado] == 2){
-                puntaje--;
                 notas[enunciado] = puntaje;
+                puntaje--;
                 signal_all(esperando_notas[enunciado])
             }
         }
@@ -55,8 +61,14 @@ monitor Tarea
 end;
 
 process JTP
-    Fila.Liberar();
-    Tarea.Corregir()
+    int g;
+    Fila.EsperarAlumnos()
+    for(i=0; i<50; i++){
+        g = AsignarNroGrupo();
+        Fila.FijarGrupo(i, g);
+    }
+    Tarea.Empezar();
+    Tarea.Corregir();
 end process;
 
 process Alumno[id: 0..49]
