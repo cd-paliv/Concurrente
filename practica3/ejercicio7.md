@@ -6,29 +6,29 @@ monitor Equipo
     int cantPersonas[4] = ([4] 0)
     int cancha[4], numCancha = 0, hayEquipo = 0;
 
-    procedure EsperarCompaneros(equipo: in int)
+    procedure EsperarCompaneros(equipo: in int, cancha: out int)
         cantPersonas[equipo]++;
         if(cantPersonas[equipo] < 5) wait(espero_cinco[equipo])
         else{
-            Push(fila, equipo)
-            hayEquipo++;
+            Match.Matchear(cancha)
             signal_all(espero_cinco[equipo])
         }
     end;
 
-    procedure EsperoOtroEquipo(miE: in int; miCancha: out int)
-        if(hayEquipo < 2) wait(otroEquipo)
-        else{
-            numCancha++;
-            for(i=0; i<2; i++){
-                Pop(fila, equipo)
-                hayEquipo--;
-                cancha[equipo] = numCancha;
-            }
-            signal(otroEquipo)
-        }
-        miCancha = cancha[miE]
-    end;
+    monitor Match
+        cond esperarEquipo;
+        int cantEquipos = 0;
+
+        procedure Matchear(cancha: in int)
+            cantEquipos++;
+            case cantEquipos of:
+                1: cancha = 1; wait(esperarEquipo);
+                2: cancha = 2; signal(esperarEquipo);
+                3: cancha = 3; wait(esperarEquipo);
+                4: cancha = 4; signal(esperarEquipo);
+            end;
+        end;
+    end monitor;
 end monitor;
 
 monitor Cancha[id: 1..4]
@@ -52,8 +52,7 @@ end monitor;
 
 process Jugador[id: 1..20]
     int nroC, e = DarEquipo();
-    Equipo.EsperarCompaneros(e);
-    Equipo.EsperoOtroEquipo(e, nroC);
+    Equipo.EsperarCompaneros(e, nroC);
     Cancha[nroC].Jugar();
 end process;
 

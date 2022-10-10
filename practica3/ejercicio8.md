@@ -2,5 +2,70 @@ Se debe simular una maratón con C corredores donde en la llegada hay UNA máqui
     Nota: mientras se reponen las botellas se debe permitir que otros corredores se encolen.
 
 ````C
+monitor Carrera
+    cond comenzar;
 
+    procedure Correr()
+        if(cantC == C) signal_all(comenzar);
+        else wait(comenzar);
+    end;
+end monitor;
+
+monitor MaquinaExpendedora
+    cond esperaBotella, repo;
+    int cantBotellas = 20;
+
+    procedure AgarrarBotella(idC: in int)
+        if(cantBotellas == 0){
+            signal(repo)
+            wait(esperaBotella)
+        }
+        cantBotellas--;
+    end;
+
+    procedure ReponerBotellas
+        while(true){
+            if(cantBotellas < 0) wait(repo)
+            // reponer botellas
+            cantBotellas = 20
+            signal(esperaBotella)
+        }
+    end;
+end monitor;
+
+monitor Cola
+    cond siguiente[C];
+    colaOrdenada cola;
+    int cant = 1, espera = 0;
+
+    procedure Encolar(idC: in int)
+        if(cant == 0){
+            Push(cola, idC);
+            espera++;
+            wait(siguiente[idC])
+        } else cant--;
+    end;  
+
+    procedure Desencolar()
+        if(espera == 0) cant++;
+        else{
+            int idAux;
+            Pop(cola, idAux);
+            espera--;
+            signal(siguiente[idAux]);
+        }
+
+    end;
+end monitor;
+
+process Corredor[id: 0..C]
+    Carrera.Correr();
+    Cola.Encolar(id);
+    MaquinaExpendedora.AgarraBotella()
+    Cola.Desencolar();
+end process;
+
+process Repositor
+    MaquinaExpendedora.ReponerBotellas()
+end process;
 ````
