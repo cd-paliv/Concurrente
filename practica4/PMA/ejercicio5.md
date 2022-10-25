@@ -4,12 +4,15 @@ Resolver la administración de las impresoras de una oficina. Hay 3 impresoras, 
 ````C
 chan ImprimirU(texto);
 chan ImprimirD(texto);
+chan Senial(bool);
+chan Pedido(texto);
 
 Process Usuario[id: 0..N-1]{
     texto documento;
     while(true){
         //Trabaja duro duro
         send ImprimirU(documento);
+        send Senial(true);
     }
 }
 
@@ -18,21 +21,27 @@ Process Director{
     while(true){
         // No trabaja nada nada
         send ImprimirD(documentoMasImportante);
+        send Senial(true);
+    }
+}
+
+// Usar 'coordinador' cuando hay N a N y se verifica por empty
+Process Coordinador{
+    bool cond;
+    while(true){
+        receive Senial(cond);
+        if(empty(ImprimirD) & not empty(ImprimirU)){
+            receive ImprimirU(doc);
+        } else receive ImprimirD(doc);
+        send Pedido(doc);
     }
 }
 
 Process Impresora[id: 0..2]{
     texto doc;
     while(true){
-        if(empty(ImprimiD)){
-            if(not empty(ImprimirU)){
-                receive ImprimirU(doc);
-                //Imprime
-            }
-        } else {
-            receive ImprimirD(doc);
-            //Imprime
-        }
+        receive Pedido(doc);
+        //Imprime
     }
 }
 ````

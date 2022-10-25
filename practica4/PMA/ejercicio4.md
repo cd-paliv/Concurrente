@@ -4,30 +4,34 @@ Simular la atención en un locutorio con 10 cabinas telefónicas, el cual tiene 
 ````C
 chan Turno(int);
 chan Listo(int);
+chan Senial(bool)
 chan Cabina[N](int);
 chan Comprobante[N](int);
-int cabinasDisponibles[10] = ([10] 1); //Cabina esta disponible si esta en 1, ocupada si esta en 0
+cola cabinasDisponibles; //Cabina esta disponible si esta en 1, ocupada si esta en 0
 
 Process Cliente[id: 0..N-1]{
     int nroCabina;
     send Turno(id);
+    send Senial(true);
     receive Cabina[id](nroCabina);
     // Usa cabina
-    send Listo(id);
+    send Listo(id, nroCabina);
+    send Senial(true);
     receive Comprobante[id](ticket);
 }
 
 Process Empleado{
     int idC, cabinaC, total;
+    bool cond;
     while(true){
-        if(empty(Listo)){
-            if(not empty(Turno)){
-                receive Turno(idC);
-                cabinaC = ElegirCabinaLibre();
-                send Cabina[idC](cabinaC);
-            }
-        }else{
-            receive Listo(idC);
+        receive Senial(cond);
+        if(empty(Listo) & not empty(Turno) & not empty cabinasDisponibles){
+            receive Turno(idC);
+            cabinaC = ElegirCabinaLibre(cabinasDisponibles);
+            send Cabina[idC](cabinaC);
+        }else if not empty(Listo){
+            receive Listo(idC, nroC);
+            Push(cabinaDisponbiel, nro C)
             total = Cobrar();
             send Comprobante[idC](total);
         }
