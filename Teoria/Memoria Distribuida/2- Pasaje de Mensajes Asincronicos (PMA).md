@@ -3,6 +3,7 @@
 Los programas se componen *solo* de procesos y canales, es decir, no existen las variables compartidas.
  - Los canales actuan como colas de mensajes enviados y no recibidos. Son de tipo mailbox. Todos los procesos los pueden usar para enviar o recibir mensajes.
  - Los procesos interactuan entre ellos unicamente por medio del envio de mensajes.
+
 No se requiere sincronizacion por exclusion mutua ya que no existen variables compartidas.
 
 ### Sintaxis
