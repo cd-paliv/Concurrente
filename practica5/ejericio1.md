@@ -4,34 +4,60 @@ a. Realice la solución suponiendo que todos los vehículos tienen la misma prio
 ```
 Procedure Puente is
     Task Paso is
-        Entry Acceso()
+        Entry AccesoA()
+        Entry AccesoB()
+        Entry AccesoC()
+        Entry Salir(IN peso:int)
     end Acceso;
 
     Task type Auto;
     arrAuto: array(1..A) of Auto;
     Task Body Auto is
+    double miPeso=...;
     Begin
         Paso.Acceso();
+        Paso.Salir(miPeso);
     End Auto;
 
     Task type Camioneta;
     arrCamioneta: array(1..B) of Camioneta;
     Task Body Camioneta is
+    double miPeso=...;
     Begin
         Paso.Acceso();
+        Paso.Salir(miPeso);
     End Camioneta;
 
     Task type Camión;
     arrCamión: array(1..C) of Camión;
     Task Body Camión is
+    double miPeso=...;
     Begin
         Paso.Acceso();
+        Paso.Salir(miPeso);
     End Camión;
 
     Task Body Paso is
+    int cant = 5;
     Begin
         loop
-            accept Acceso();
+            SELECT 
+                when (cant-1>0 AND Salir'count=0) -> accept AccesoA() do
+                    cant--;
+                end:
+            OR
+                when (cant-2>0 AND Salir'count=0) -> accept AccesoB() do
+                    cant=cant-2;
+                end;
+            OR
+                when (cant-3>0 AND Salir'count=0)) -> accept AccesoC() do
+                    cant= cant-3;
+                end;
+            OR
+                accept Salir(IN peso) do
+                    cant=cant+peso;
+                end;
+            end select;
         end loop;
     End Paso;
 
@@ -42,5 +68,66 @@ End Puente;
 
 b. Modifique la solución para que tengan mayor prioridad los camiones que el resto de los vehículos.
 ```
+Procedure Puente is
+    Task Paso is
+        Entry AccesoA()
+        Entry AccesoB()
+        Entry AccesoC()
+        Entry Salir(IN peso:int)
+    end Acceso;
 
+    Task type Auto;
+    arrAuto: array(1..A) of Auto;
+    Task Body Auto is
+    double miPeso=...;
+    Begin
+        Paso.Acceso();
+        Paso.Salir(miPeso);
+    End Auto;
+
+    Task type Camioneta;
+    arrCamioneta: array(1..B) of Camioneta;
+    Task Body Camioneta is
+    double miPeso=...;
+    Begin
+        Paso.Acceso();
+        Paso.Salir(miPeso);
+    End Camioneta;
+
+    Task type Camión;
+    arrCamión: array(1..C) of Camión;
+    Task Body Camión is
+    double miPeso=...;
+    Begin
+        Paso.Acceso();
+        Paso.Salir(miPeso);
+    End Camión;
+
+    Task Body Paso is
+    int cant = 5;
+    Begin
+        loop
+            SELECT 
+                when (cant-1>0 AND Salir'count=0 AND AccesoC'count=0) -> accept AccesoA() do
+                    cant--;
+                end:
+            OR
+                when (cant-2>0 AND Salir'count=0 AND AccesoC'count=0) -> accept AccesoB() do
+                    cant=cant-2;
+                end;
+            OR
+                when (cant-3>0 AND Salir'count=0)) -> accept AccesoC() do
+                    cant= cant-3;
+                end;
+            OR
+                accept Salir(IN peso) do
+                    cant=cant+peso;
+                end;
+            end select;
+        end loop;
+    End Paso;
+
+Begin
+    null;
+End Puente;
 ```
