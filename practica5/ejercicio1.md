@@ -74,14 +74,14 @@ Procedure Puente is
         Entry AccesoB()
         Entry AccesoC()
         Entry Salir(IN peso:int)
-    end Acceso;
+    end Paso;
 
     Task type Auto;
     arrAuto: array(1..A) of Auto;
     Task Body Auto is
     double miPeso=...;
     Begin
-        Paso.Acceso();
+        Paso.AccesoA();
         Paso.Salir(miPeso);
     End Auto;
 
@@ -90,7 +90,7 @@ Procedure Puente is
     Task Body Camioneta is
     double miPeso=...;
     Begin
-        Paso.Acceso();
+        Paso.AccesoB();
         Paso.Salir(miPeso);
     End Camioneta;
 
@@ -99,7 +99,7 @@ Procedure Puente is
     Task Body Camión is
     double miPeso=...;
     Begin
-        Paso.Acceso();
+        Paso.AccesoC();
         Paso.Salir(miPeso);
     End Camión;
 
@@ -116,7 +116,7 @@ Procedure Puente is
                     cant=cant-2;
                 end;
             OR
-                when (cant-3>0 AND Salir'count=0)) -> accept AccesoC() do
+                when (cant-3>0 AND Salir'count=0) -> accept AccesoC() do
                     cant= cant-3;
                 end;
             OR
