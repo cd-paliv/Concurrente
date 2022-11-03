@@ -2,36 +2,22 @@ En una exposición aeronáutica hay un simulador de vuelo (que debe ser usado co
     Nota: cada persona usa sólo una vez el simulador.
 
 ````C
-Process Simulador{
-    while(true){
-        Persona?listo()
-        Encargado!listo()
-    }
-}
-
 Process Persona[id: 0..P-1]{
-    Admin!(id)
+    Encargado!llegue(id)
     Encargado?usar()
     // Usa simulador
-    Simulador!listo()
-}
-
-Process Admin{
-    cola Buffer;
-    int idP;
-    do Persona[*]!(idP) -> Push(Buffer, idP)
-    do not empty(Buffer);
-        Encargado?pedido() -> Encargado!siguiente(Pop(Buffer))
-    od
+    Encargado!listo()
 }
 
 Process Encargado{
+    cola Buffer;
     int idP;
-    while(true){
-        Admin!pedido()
-        Admin?siguiente(idP)
-        Persona[idP]!usar()
-        Simulador?listo()
-    }
+    bool libre;
+    do Persona[*]?llegue(idP) -> if libre: Persona[idP]!usar();
+                                            libre=false;
+                                else: Push(Buffer, idP);
+    do Persona[*]?listo() -> if empty(Buffer): libre=true;
+                                else: Persona[Pop(Buffer)]!usar();
+    od
 }
 ````

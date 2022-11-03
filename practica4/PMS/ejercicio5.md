@@ -2,25 +2,22 @@ En un estadio de fútbol hay una máquina expendedora de gaseosas que debe ser u
     Nota: cada Espectador una sólo una vez la máquina.
 
 ````C
-Process Máquina{
-    while(true){
-        Máquina!libre() //Pongo primero libre porque sino cuando llegue el primer espectador no la va a poder usar
-        Máquina?ocupada()
-    }
-}
-
 Process Espectador[id: 0..E-1]{
     Admin!(id)
     Admin?turno()
     // usa máquina
-    Máquina!ocupada()
+    Admin!listo()
 }
 
 Process Admin{
+    cola Buffer;
     int idE;
-    do Espectador[*]?(idE) -> Push(Buffer, idE);
-    do not empty(Buffer);
-        Máquina?libre() -> Espectador[Pop(buffer)]!turno();
+    bool libre=true;
+    do Espectador[*]?(idE) -> if libre: Espectador[idE]!turno();
+                                        libre=false;
+                                else: Push(Buffer, idE);
+    do Espectador[*]?listo() -> if empty(Buffer): libre=true;
+                                else: Espectador[Pop(Buffer)]!turno()
     od
 }
 ````
