@@ -2,34 +2,83 @@ Una empresa de limpieza se encarga de recolectar residuos en una ciudad por medi
     Nota: maximizar la concurrencia.
 
 ``` ada
-Process Empresa is
+Process Recolectora is
+    Task Empresa is
+        Entry Reclamo(idP: IN int);
+        Entry CamionLibre(idCamion: IN int);
+    end Empresa;
+
     Task Camion is
-        Entry Reclamo();
+        Entry iden(id: IN int);
+    end Camion;
+    arrC: array(1..3) of Camion;
+
+    Task Persona is
+        Entry iden(id: IN int);
+        Entry VinoCamion();
+        Entry TerminoCamion();
+    end Persona;
+    arrP: array(1..P) of Persona;
+
+    Task Body Empresa is
+    reclamos: array(1..P) of int;
+    cantP: int;
+    Begin
+        cantP=0;
+        loop
+            SELECT
+                accept Reclamo(idP) do
+                    if reclamos[idP] > -1 then --{si reclamos[idP]=-1 entonces el reclamo de esa persona ya fue atendido}
+                        reclamos[idP]++;
+                        cantP++;
+                    end if;
+                end Reclamo;
+            OR
+                when (cantP'count > 0) => accept CamionLibre(idMax) do
+                                                idMax=max(reclamos);
+                                                cantP--;
+                                                reclamos[idMax] = -1;
+                                          end CamionLibre;
+            END SELECT
+        end loop;
+    end Empresa;
+
+    Task Body Camion is
+    idP: int;
+    Begin
+        loop
+            Empresa.CamionLibre(idP);
+            Persona[idP].VinoCamion();
+            delay(x);
+            Persona[idP].TerminoCamion();
+        end loop;
     end Camion;
 
-    Task Type Persona;
-    arrP: array(1..P) of Persona;
     Task Body Persona is
+    id: int;
     espera: bool;
     Begin
         espera=true;
+        accept iden(id) do
+            id=id;
+        end iden;
         while(espera) loop
+            Empresa.Reclamo(id)
             SELECT
-                Camion.Reclamo();
+                accept VinoCamion();
                 espera=false;
-            ELSE DELAY(900.0)
+            OR DELAY(900.0)
+                null;
             END SELECT;
+            if(not espera) then
+                accept TerminoCamion();
+            end if;
         end loop;
     end Persona;
 
-    Task Body Camion is
-    Begin
-        accept Reclamo() do
-            RecolectarResiduos();
-        end Reclamo;
-    end Camion;
-
 Begin
-    null;
+    for i in 1..P loop
+        Persona[i].iden(i);
+    end loop;
 end Empresa.
 ```
