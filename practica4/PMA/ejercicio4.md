@@ -4,7 +4,7 @@ Simular la atención en un locutorio con 10 cabinas telefónicas, el cual tiene 
 ````C
 chan Turno(int);
 chan Listo(int);
-chan Senial(bool)
+chan Senial(bool);
 chan Cabina[N](int);
 chan Comprobante[N](int);
 cola cabinasDisponibles; //Cabina esta disponible si esta en 1, ocupada si esta en 0
